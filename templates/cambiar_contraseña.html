@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cambiar Contraseña | Prestamos Castillo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>PRESTAMOS CASTILLO</h1>
+      <nav>
+        <a href="/dashboard">Cronograma</a>
+        <a href="/solicitar">Prestamos</a>
+        <a href="/cambiar_contrasena" class="active">Cambiar Contraseña</a>
+        <a href="/logout" class="cerrar">Cerrar Sesión</a>
+      </nav>
+    </header>
+
+    <section class="contenido">
+      <h2>Cambiar Contraseña</h2>
+      <form action="/cambiar_contrasena" method="post">
+        <div class="form-group">
+          <label for="actual">Contraseña actual</label>
+          <input type="password" id="actual" name="actual" required>
+        </div>
+
+        <div class="form-group">
+          <label for="nueva">Nueva contraseña</label>
+          <input type="password" id="nueva" name="nueva" required>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmar">Confirmar nueva contraseña</label>
+          <input type="password" id="confirmar" name="confirmar" required>
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit" class="registrar">Cambiar contraseña</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

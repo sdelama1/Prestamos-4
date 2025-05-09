@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Prestamos Castillo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .login-wrapper {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f4f4f4;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-box h2 {
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .login-box p {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #777;
+    }
+
+    .login-box label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-box">
+      <h2>PrestamosCastillo</h2>
+      <p>Sistema de Gestión de Préstamos Personales</p>
+      <form action="/login" method="post">
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario" name="usuario" required>
+
+        <label for="clave">Contraseña</label>
+        <input type="password" id="clave" name="clave" required>
+
+        <button type="submit">Iniciar Sesión</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+

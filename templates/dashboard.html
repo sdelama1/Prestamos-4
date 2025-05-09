@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cronograma | Prestamos Castillo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>PRESTAMOS CASTILLO</h1>
+      <nav>
+        <a href="/dashboard" class="active">Cronograma</a>
+        <a href="/solicitar">Prestamos</a>
+        <a href="/cambiar_contrasena">Cambiar Contraseña</a>
+        <a href="/logout" class="cerrar">Cerrar Sesión</a>
+      </nav>
+    </header>
+
+    <section class="contenido">
+      <h2>Bienvenido</h2>
+      <label for="prestamo">SELECCIONAR PRESTAMO</label>
+      <select id="prestamo" name="prestamo">
+        {% for p in prestamos %}
+          <option value="{{ p.id }}">{{ p.nombre }} - s/ {{ p.monto }} - {{ p.fecha }}</option>
+        {% endfor %}
+      </select>
+
+      <div class="download-btn">
+        <form id="form-pdf" action="/descargar_pdf" method="post">
+          <input type="hidden" id="prestamo_id_pdf" name="prestamo_id" value="{{ prestamos[0].id if prestamos else '' }}">
+          <button type="submit">Descargar Cronograma en PDF</button>
+        </form>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nº Cuotas</th>
+            <th>Fecha de pago</th>
+            <th>Interés (%)</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody id="tabla_cuotas">
+          {% for c in cuotas %}
+          <tr>
+            <td>{{ c.numero }}</td>
+            <td>{{ c.fecha_pago }}</td>
+            <td>{{ "{:.2f}".format(c.interes * 100) if c.interes else '0.00' }} %</td>
+            <td>s/ {{ "{:.2f}".format(c.monto) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    const selectPrestamo = document.getElementById('prestamo');
+    const tablaCuotas = document.getElementById('tabla_cuotas');
+    const inputPDF = document.getElementById('prestamo_id_pdf');
+
+    selectPrestamo.addEventListener('change', () => {
+      const prestamoId = selectPrestamo.value;
+      inputPDF.value = prestamoId;
+
+      fetch(`/api/cuotas/${prestamoId}`)
+        .then(response => response.json())
+        .then(data => {
+          tablaCuotas.innerHTML = '';
+
+          if (!data.length) {
+            tablaCuotas.innerHTML = '<tr><td colspan="4">No hay cuotas registradas para este préstamo.</td></tr>';
+            return;
+          }
+
+          data.forEach(c => {
+            const interes = c.interes ? (parseFloat(c.interes) * 100).toFixed(2) : '0.00';
+            const monto = c.monto ? parseFloat(c.monto).toFixed(2) : '0.00';
+            const fecha = c.fecha_pago || '';
+            tablaCuotas.innerHTML += `
+              <tr>
+                <td>${c.numero}</td>
+                <td>${fecha}</td>
+                <td>${interes} %</td>
+                <td>s/ ${monto}</td>
+              </tr>`;
+          });
+        })
+        .catch(() => {
+          tablaCuotas.innerHTML = '<tr><td colspan="4">Error al cargar datos</td></tr>';
+        });
+    });
+  </script>
+</body>
+</html>

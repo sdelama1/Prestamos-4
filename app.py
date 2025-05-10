@@ -12,10 +12,11 @@ app.secret_key = 'clave_secreta_123'
 # Conexión a MySQL
 def get_db():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="prestamos_castillo"
+        host=os.environ.get('DB_HOST'),    # Usando la variable de entorno DB_HOST
+        user=os.environ.get('DB_USER'),    # Usando la variable de entorno DB_USER
+        password=os.environ.get('DB_PASSWORD'),  # Usando la variable de entorno DB_PASSWORD
+        database=os.environ.get('DB_NAME'),      # Usando la variable de entorno DB_NAME
+        port=os.environ.get('DB_PORT', 3306)     # Usando la variable de entorno DB_PORT, con valor predeterminado 3306
     )
 
 API_RENIEC_TOKEN = 'apis-token-14880.Mj8z0QRbzJsptLsh0QD0ipCEdupe34k0'

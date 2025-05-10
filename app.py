@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import io
+import os
 import requests
 
 app = Flask(__name__)

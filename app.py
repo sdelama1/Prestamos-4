@@ -1,10 +1,11 @@
+import os  # Asegúrate de importar os
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, jsonify
 import mysql.connector
 from datetime import datetime, timedelta
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import io
-import os
 import requests
 
 app = Flask(__name__)
